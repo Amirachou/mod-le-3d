@@ -18,20 +18,13 @@ public/models/Clock_Tower_Big_Ben.usdz
 After deploying to Vercel, these files should be available at:
 
 ```text
-https://your-project.vercel.app/models/free__la_tour_eiffel.glb
-https://your-project.vercel.app/models/Clock_Tower_Big_Ben.usdz
+https://mod-le-3d.vercel.app/models/free__la_tour_eiffel.glb
+https://mod-le-3d.vercel.app/models/Clock_Tower_Big_Ben.usdz
 ```
 
 ## Update App.js
 
-In `App.js`, replace `YOUR-VERCEL-DOMAIN` with your real Vercel project domain:
-
-```js
-const ANDROID_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/free__la_tour_eiffel.glb';
-const IOS_USDZ_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/Clock_Tower_Big_Ben.usdz';
-```
-
-Example:
+`App.js` is already linked to the deployed Vercel URLs:
 
 ```js
 const ANDROID_GLB_URL = 'https://mod-le-3d.vercel.app/models/free__la_tour_eiffel.glb';
@@ -50,8 +43,8 @@ const IOS_USDZ_URL = 'https://mod-le-3d.vercel.app/models/Clock_Tower_Big_Ben.us
 8. After deploy, test these URLs in a browser:
 
 ```text
-https://your-project.vercel.app/models/free__la_tour_eiffel.glb
-https://your-project.vercel.app/models/Clock_Tower_Big_Ben.usdz
+https://mod-le-3d.vercel.app/models/free__la_tour_eiffel.glb
+https://mod-le-3d.vercel.app/models/Clock_Tower_Big_Ben.usdz
 ```
 
 ## Run the Expo App

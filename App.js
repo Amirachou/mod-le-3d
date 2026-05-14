@@ -3,9 +3,9 @@ import { Alert, Linking, Platform, Pressable, StyleSheet, Text, View } from 'rea
 
 // Android uses GLB with Google Scene Viewer.
 // iOS uses USDZ with AR Quick Look.
-// After deploying to Vercel, replace YOUR-VERCEL-DOMAIN with the real project domain.
-const ANDROID_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/free__la_tour_eiffel.glb';
-const IOS_USDZ_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/Clock_Tower_Big_Ben.usdz';
+// These are the public direct URLs from the Vercel deployment.
+const ANDROID_GLB_URL = 'https://mod-le-3d.vercel.app/models/free__la_tour_eiffel.glb';
+const IOS_USDZ_URL = 'https://mod-le-3d.vercel.app/models/Clock_Tower_Big_Ben.usdz';
 
 export default function App() {
   const openModelInAR = async () => {
