@@ -1,77 +1,77 @@
-# GLB Hosting With GitHub, Vercel, and Expo
+# Castle AR Test
 
-This project keeps the GLB file at:
+This Expo app opens a hosted Castle model in AR using only React Native `Linking`.
+
+- Android uses `castle.glb` with Google Scene Viewer.
+- iPhone/iOS uses `castle.usdz` with AR Quick Look.
+- No ViroReact, Unity, ARKit SDK, ARCore SDK, or complex AR library is used.
+
+## Model Files
+
+Put both model files in:
 
 ```text
-public/models/free__la_tour_eiffel.glb
+public/models/castle.glb
+public/models/castle.usdz
 ```
 
-When deployed to Vercel, files inside `public` are available from the root of your site. The final direct GLB URL will look like:
+After deploying to Vercel, these files should be available at:
 
 ```text
-https://your-project.vercel.app/models/free__la_tour_eiffel.glb
+https://your-project.vercel.app/models/castle.glb
+https://your-project.vercel.app/models/castle.usdz
 ```
 
-## 1. Push this project to GitHub
+## Update App.js
 
-Open a terminal in this project folder, then run:
+In `App.js`, replace `YOUR-VERCEL-DOMAIN` with your real Vercel project domain:
+
+```js
+const CASTLE_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/castle.glb';
+const CASTLE_USDZ_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/castle.usdz';
+```
+
+Example:
+
+```js
+const CASTLE_GLB_URL = 'https://mod-le-3d.vercel.app/models/castle.glb';
+const CASTLE_USDZ_URL = 'https://mod-le-3d.vercel.app/models/castle.usdz';
+```
+
+## Push to GitHub
+
+Open a terminal in this project folder:
 
 ```sh
-git init
 git add .
-git commit -m "Prepare GLB model for Vercel hosting"
-git branch -M main
-git remote add origin https://github.com/Amirachou/mod-le-3d.git
-git push -u origin main
+git commit -m "Support Android and iOS AR models"
+git push
 ```
 
-If Git says the remote already exists, run:
+If this is a new checkout with no remote yet:
 
 ```sh
-git remote set-url origin https://github.com/Amirachou/mod-le-3d.git
+git remote add origin https://github.com/Amirachou/mod-le-3d.git
+git branch -M main
 git push -u origin main
 ```
 
-## 2. Import the project into Vercel
+## Deploy to Vercel
 
 1. Go to `https://vercel.com`.
 2. Sign in with GitHub.
 3. Click `Add New Project`.
-4. Choose the GitHub repository `mod-le-3d`.
+4. Import the GitHub repository.
 5. Keep the default settings.
 6. Click `Deploy`.
-
-## 3. Get the direct GLB URL
-
-After Vercel finishes deploying, open your project domain. It will look similar to:
+7. After deploy, test these URLs in a browser:
 
 ```text
-https://your-project.vercel.app
+https://your-project.vercel.app/models/castle.glb
+https://your-project.vercel.app/models/castle.usdz
 ```
 
-Add `/models/free__la_tour_eiffel.glb` to the end:
-
-```text
-https://your-project.vercel.app/models/free__la_tour_eiffel.glb
-```
-
-Open that URL in a browser. If the file downloads or opens, the URL is correct.
-
-## 4. Paste the URL into App.js
-
-In `App.js`, replace:
-
-```js
-const MODEL_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/free__la_tour_eiffel.glb';
-```
-
-with your real Vercel URL, for example:
-
-```js
-const MODEL_GLB_URL = 'https://mod-le-3d.vercel.app/models/free__la_tour_eiffel.glb';
-```
-
-## 5. Run the Expo app
+## Run the Expo App
 
 Install dependencies:
 
@@ -85,12 +85,17 @@ Start Expo:
 npx expo start
 ```
 
-## 6. Test the AR button on Android
+## Test on Android
 
 1. Install Expo Go on an Android phone.
 2. Make sure Google Play Services for AR is installed or updated.
 3. Scan the Expo QR code with Expo Go.
-4. Tap `Open Model in AR`.
-5. Google Scene Viewer should open the hosted GLB model.
+4. Tap `Open Castle in AR`.
+5. Google Scene Viewer should open `castle.glb`.
 
-This app intentionally stays simple and uses `Linking.openURL` with Google Scene Viewer for Android AR.
+## Test on iPhone/iOS
+
+1. Install Expo Go on an iPhone.
+2. Scan the Expo QR code with Expo Go.
+3. Tap `Open Castle in AR`.
+4. iOS should open the hosted `castle.usdz` file with AR Quick Look.

@@ -1,39 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
 import { Alert, Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
-// This must be the public direct URL of the hosted GLB file.
+// Android uses GLB with Google Scene Viewer.
+// iOS uses USDZ with AR Quick Look.
 // After deploying to Vercel, replace YOUR-VERCEL-DOMAIN with the real project domain.
-const MODEL_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/free__la_tour_eiffel.glb';
+const CASTLE_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/castle.glb';
+const CASTLE_USDZ_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/castle.usdz';
 
 export default function App() {
-  const openModelInAR = async () => {
-    if (!MODEL_GLB_URL.startsWith('https://')) {
-      Alert.alert('Hosted URL needed', 'Please paste a public HTTPS .glb URL into MODEL_GLB_URL.');
-      return;
-    }
-
-    if (Platform.OS !== 'android') {
-      Alert.alert('Android only', 'Scene Viewer AR works on Android devices with Google Play Services for AR.');
-      return;
-    }
-
-    const encodedModelUrl = encodeURIComponent(MODEL_GLB_URL);
-    const sceneViewerUrl =
-      `intent://arvr.google.com/scene-viewer/1.0?file=${encodedModelUrl}&mode=ar_preferred` +
-      '#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;';
-
+  const openCastleInAR = async () => {
     try {
-      await Linking.openURL(sceneViewerUrl);
+      if (Platform.OS === 'android') {
+        const encodedGlbUrl = encodeURIComponent(CASTLE_GLB_URL);
+        const sceneViewerUrl =
+          `https://arvr.google.com/scene-viewer/1.0?file=${encodedGlbUrl}&mode=ar_preferred`;
+
+        await Linking.openURL(sceneViewerUrl);
+        return;
+      }
+
+      if (Platform.OS === 'ios') {
+        await Linking.openURL(CASTLE_USDZ_URL);
+        return;
+      }
+
+      Alert.alert('AR not supported', 'This AR test supports Android and iOS devices only.');
     } catch (error) {
-      Alert.alert('Could not open AR', 'Make sure this is an Android device with AR support installed.');
+      Alert.alert('Could not open AR', 'Make sure the model URL is public and this device supports AR.');
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Eiffel Tower AR Test</Text>
-      <Pressable style={styles.button} onPress={openModelInAR}>
-        <Text style={styles.buttonText}>Open Model in AR</Text>
+      <Text style={styles.title}>Castle AR Test</Text>
+      <Text style={styles.subtitle}>Android uses GLB, iOS uses USDZ</Text>
+      <Pressable style={styles.button} onPress={openCastleInAR}>
+        <Text style={styles.buttonText}>Open Castle in AR</Text>
       </Pressable>
       <StatusBar style="auto" />
     </View>
@@ -52,7 +54,13 @@ const styles = StyleSheet.create({
     color: '#1d2a2e',
     fontSize: 28,
     fontWeight: '700',
+    marginBottom: 8,
+  },
+  subtitle: {
+    color: '#526063',
+    fontSize: 16,
     marginBottom: 24,
+    textAlign: 'center',
   },
   button: {
     backgroundColor: '#2f6f73',
