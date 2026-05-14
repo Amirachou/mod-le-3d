@@ -3,12 +3,12 @@ import { Alert, Linking, Platform, Pressable, StyleSheet, Text, View } from 'rea
 
 // This must be the public direct URL of the hosted GLB file.
 // After deploying to Vercel, replace YOUR-VERCEL-DOMAIN with the real project domain.
-const CASTLE_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/castle.glb';
+const MODEL_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/free__la_tour_eiffel.glb';
 
 export default function App() {
-  const openCastleInAR = async () => {
-    if (!CASTLE_GLB_URL.startsWith('https://')) {
-      Alert.alert('Hosted URL needed', 'Please paste a public HTTPS .glb URL into CASTLE_GLB_URL.');
+  const openModelInAR = async () => {
+    if (!MODEL_GLB_URL.startsWith('https://')) {
+      Alert.alert('Hosted URL needed', 'Please paste a public HTTPS .glb URL into MODEL_GLB_URL.');
       return;
     }
 
@@ -17,7 +17,7 @@ export default function App() {
       return;
     }
 
-    const encodedModelUrl = encodeURIComponent(CASTLE_GLB_URL);
+    const encodedModelUrl = encodeURIComponent(MODEL_GLB_URL);
     const sceneViewerUrl =
       `intent://arvr.google.com/scene-viewer/1.0?file=${encodedModelUrl}&mode=ar_preferred` +
       '#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;';
@@ -31,9 +31,9 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Castle AR Test</Text>
-      <Pressable style={styles.button} onPress={openCastleInAR}>
-        <Text style={styles.buttonText}>Open Castle in AR</Text>
+      <Text style={styles.title}>Eiffel Tower AR Test</Text>
+      <Pressable style={styles.button} onPress={openModelInAR}>
+        <Text style={styles.buttonText}>Open Model in AR</Text>
       </Pressable>
       <StatusBar style="auto" />
     </View>

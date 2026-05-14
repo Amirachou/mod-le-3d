@@ -1,15 +1,15 @@
-# Castle GLB Hosting With GitHub, Vercel, and Expo
+# GLB Hosting With GitHub, Vercel, and Expo
 
 This project keeps the GLB file at:
 
 ```text
-public/models/castle.glb
+public/models/free__la_tour_eiffel.glb
 ```
 
 When deployed to Vercel, files inside `public` are available from the root of your site. The final direct GLB URL will look like:
 
 ```text
-https://your-project.vercel.app/models/castle.glb
+https://your-project.vercel.app/models/free__la_tour_eiffel.glb
 ```
 
 ## 1. Push this project to GitHub
@@ -49,10 +49,10 @@ After Vercel finishes deploying, open your project domain. It will look similar 
 https://your-project.vercel.app
 ```
 
-Add `/models/castle.glb` to the end:
+Add `/models/free__la_tour_eiffel.glb` to the end:
 
 ```text
-https://your-project.vercel.app/models/castle.glb
+https://your-project.vercel.app/models/free__la_tour_eiffel.glb
 ```
 
 Open that URL in a browser. If the file downloads or opens, the URL is correct.
@@ -62,13 +62,13 @@ Open that URL in a browser. If the file downloads or opens, the URL is correct.
 In `App.js`, replace:
 
 ```js
-const CASTLE_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/castle.glb';
+const MODEL_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/free__la_tour_eiffel.glb';
 ```
 
 with your real Vercel URL, for example:
 
 ```js
-const CASTLE_GLB_URL = 'https://mod-le-3d.vercel.app/models/castle.glb';
+const MODEL_GLB_URL = 'https://mod-le-3d.vercel.app/models/free__la_tour_eiffel.glb';
 ```
 
 ## 5. Run the Expo app
@@ -90,7 +90,7 @@ npx expo start
 1. Install Expo Go on an Android phone.
 2. Make sure Google Play Services for AR is installed or updated.
 3. Scan the Expo QR code with Expo Go.
-4. Tap `Open Castle in AR`.
+4. Tap `Open Model in AR`.
 5. Google Scene Viewer should open the hosted GLB model.
 
 This app intentionally stays simple and uses `Linking.openURL` with Google Scene Viewer for Android AR.
