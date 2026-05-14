@@ -4,14 +4,14 @@ import { Alert, Linking, Platform, Pressable, StyleSheet, Text, View } from 'rea
 // Android uses GLB with Google Scene Viewer.
 // iOS uses USDZ with AR Quick Look.
 // After deploying to Vercel, replace YOUR-VERCEL-DOMAIN with the real project domain.
-const CASTLE_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/castle.glb';
-const CASTLE_USDZ_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/castle.usdz';
+const ANDROID_GLB_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/free__la_tour_eiffel.glb';
+const IOS_USDZ_URL = 'https://YOUR-VERCEL-DOMAIN.vercel.app/models/Clock_Tower_Big_Ben.usdz';
 
 export default function App() {
-  const openCastleInAR = async () => {
+  const openModelInAR = async () => {
     try {
       if (Platform.OS === 'android') {
-        const encodedGlbUrl = encodeURIComponent(CASTLE_GLB_URL);
+        const encodedGlbUrl = encodeURIComponent(ANDROID_GLB_URL);
         const sceneViewerUrl =
           `https://arvr.google.com/scene-viewer/1.0?file=${encodedGlbUrl}&mode=ar_preferred`;
 
@@ -20,7 +20,7 @@ export default function App() {
       }
 
       if (Platform.OS === 'ios') {
-        await Linking.openURL(CASTLE_USDZ_URL);
+        await Linking.openURL(IOS_USDZ_URL);
         return;
       }
 
@@ -32,10 +32,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Castle AR Test</Text>
+      <Text style={styles.title}>AR Model Test</Text>
       <Text style={styles.subtitle}>Android uses GLB, iOS uses USDZ</Text>
-      <Pressable style={styles.button} onPress={openCastleInAR}>
-        <Text style={styles.buttonText}>Open Castle in AR</Text>
+      <Pressable style={styles.button} onPress={openModelInAR}>
+        <Text style={styles.buttonText}>Open Model in AR</Text>
       </Pressable>
       <StatusBar style="auto" />
     </View>
