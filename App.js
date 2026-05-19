@@ -9,69 +9,50 @@ import {
   View,
 } from 'react-native';
 
-// ============================================================================
-// VERCEL DOMAIN
-// ============================================================================
-
-const VERCEL_DOMAIN = 'https://mod-le-3d.vercel.app';
-
-// ============================================================================
-// MONUMENTS DATABASE
-// ============================================================================
-
+import { useState } from 'react';
+import { WebView } from 'react-native-webview';
 const MONUMENTS = {
   bigben: {
     name: 'Big Ben',
-    glbUrl: null, // No Android GLB yet
-    usdzUrl: `${VERCEL_DOMAIN}/models/Clock_Tower_Big_Ben.usdz`,
+    android: 'https://mod-le-3d.vercel.app/models/big_ben.glb',
+    ios: 'https://mod-le-3d.vercel.app/models/Clock_Tower_Big_Ben.usdz',
+    object3d: 'https://mod-le-3d.vercel.app/models/big_ben.glb',
   },
 
   colosseum: {
     name: 'Colosseum',
-    glbUrl: `${VERCEL_DOMAIN}/models/colosseum.glb`,
-    usdzUrl: `${VERCEL_DOMAIN}/models/colosseum.usdz`,
+    android: 'https://mod-le-3d.vercel.app/models/colosseum.glb',
+    ios: 'https://mod-le-3d.vercel.app/models/Colosseum.usdz',
+    object3d: 'https://mod-le-3d.vercel.app/models/colosseum.glb',
   },
 
   eiffel: {
     name: 'Eiffel Tower',
-    glbUrl: null, // No Android GLB yet
-    usdzUrl: `${VERCEL_DOMAIN}/models/eiffel.usdz`,
+    android: 'https://mod-le-3d.vercel.app/models/eiffel.glb',
+    ios: 'https://mod-le-3d.vercel.app/models/eiffel.usdz',
+    object3d: 'https://mod-le-3d.vercel.app/models/eiffel.glb',
   },
 };
 
-// ============================================================================
-// CHANGE THIS TO TEST DIFFERENT MONUMENTS
-// ============================================================================
-
-const CURRENT_MONUMENT = MONUMENTS.colosseum;
-
-// ============================================================================
-// APP
-// ============================================================================
-
 export default function App() {
+  const [selectedKey, setSelectedKey] = useState('colosseum');
+  const [viewMode, setViewMode] = useState('object');
+
+  const selectedMonument = MONUMENTS[selectedKey];
+
   const openModelInAR = async () => {
     try {
-      // ======================================================================
-      // ANDROID
-      // ======================================================================
-
       if (Platform.OS === 'android') {
-        // Check if GLB exists
-        if (!CURRENT_MONUMENT.glbUrl) {
+        if (!selectedMonument.android) {
           Alert.alert(
             'Not available on Android',
-            `${CURRENT_MONUMENT.name} has no GLB model yet.`
+            `${selectedMonument.name} has no Android GLB model yet.`
           );
           return;
         }
 
-        // Encode GLB URL
-        const encodedGlbUrl = encodeURIComponent(
-          CURRENT_MONUMENT.glbUrl
-        );
+        const encodedGlbUrl = encodeURIComponent(selectedMonument.android);
 
-        // Google Scene Viewer URL
         const sceneViewerUrl =
           `https://arvr.google.com/scene-viewer/1.0?file=${encodedGlbUrl}&mode=ar_preferred`;
 
@@ -79,33 +60,20 @@ export default function App() {
         return;
       }
 
-      // ======================================================================
-      // IOS
-      // ======================================================================
-
       if (Platform.OS === 'ios') {
-        // Check if USDZ exists
-        if (!CURRENT_MONUMENT.usdzUrl) {
+        if (!selectedMonument.ios) {
           Alert.alert(
             'Not available on iOS',
-            `${CURRENT_MONUMENT.name} has no USDZ model yet.`
+            `${selectedMonument.name} has no iOS USDZ model yet.`
           );
           return;
         }
 
-        // Open AR Quick Look
-        await Linking.openURL(CURRENT_MONUMENT.usdzUrl);
+        await Linking.openURL(selectedMonument.ios);
         return;
       }
 
-      // ======================================================================
-      // OTHER DEVICES
-      // ======================================================================
-
-      Alert.alert(
-        'AR not supported',
-        'This AR test supports Android and iOS devices only.'
-      );
+      Alert.alert('AR not supported', 'Use Android or iOS to test AR.');
     } catch (error) {
       Alert.alert(
         'Could not open AR',
@@ -114,73 +82,252 @@ export default function App() {
     }
   };
 
+  const modelViewerHTML = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+        <style>
+          body {
+            margin: 0;
+            background: #111;
+            overflow: hidden;
+          }
+
+          model-viewer {
+            width: 100vw;
+            height: 100vh;
+            background: #111;
+          }
+        </style>
+      </head>
+
+      <body>
+        <model-viewer
+          src="${selectedMonument.object3d}"
+          ar
+          auto-rotate
+          camera-controls
+          shadow-intensity="1"
+          exposure="1"
+        >
+        </model-viewer>
+      </body>
+    </html>
+  `;
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>AR Monument Viewer</Text>
 
       <Text style={styles.subtitle}>
-        Current Monument: {CURRENT_MONUMENT.name}
+        Selected: {selectedMonument.name}
       </Text>
 
-      <Pressable style={styles.button} onPress={openModelInAR}>
-        <Text style={styles.buttonText}>Open Model in AR</Text>
-      </Pressable>
+      {/* Monument Selector */}
+      <View style={styles.selector}>
+        {Object.entries(MONUMENTS).map(([key, monument]) => (
+          <Pressable
+            key={key}
+            style={[
+              styles.monumentButton,
+              selectedKey === key && styles.monumentButtonActive,
+            ]}
+            onPress={() => {
+              setSelectedKey(key);
+              setViewMode('object');
+            }}
+          >
+            <Text
+              style={[
+                styles.monumentButtonText,
+                selectedKey === key && styles.monumentButtonTextActive,
+              ]}
+            >
+              {monument.name}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
 
-      <Text style={styles.infoText}>
-        {Platform.OS === 'android'
-          ? 'Android uses GLB + Google Scene Viewer'
-          : 'iOS uses USDZ + AR Quick Look'}
-      </Text>
+      {/* Mode Switch */}
+      <View style={styles.modeContainer}>
+        <Pressable
+          style={[
+            styles.modeButton,
+            viewMode === 'object' && styles.modeButtonActive,
+          ]}
+          onPress={() => setViewMode('object')}
+        >
+          <Text style={styles.modeButtonText}>3D Object</Text>
+        </Pressable>
+
+        <Pressable
+          style={[
+            styles.modeButton,
+            viewMode === 'ar' && styles.modeButtonActive,
+          ]}
+          onPress={() => setViewMode('ar')}
+        >
+          <Text style={styles.modeButtonText}>AR View</Text>
+        </Pressable>
+      </View>
+
+      {/* OBJECT MODE */}
+      {viewMode === 'object' && (
+        <View style={styles.viewerContainer}>
+          {selectedMonument.object3d ? (
+            <WebView
+              originWhitelist={["*"]}
+              source={{ html: modelViewerHTML }}
+              style={styles.webview}
+            />
+          ) : (
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>
+                3D View not available for this monument.
+              </Text>
+            </View>
+          )}
+        </View>
+      )}
+
+      {/* AR MODE */}
+      {viewMode === 'ar' && (
+        <View style={styles.arContainer}>
+          <Text style={styles.arTitle}>
+            Open {selectedMonument.name} in AR
+          </Text>
+
+          <Pressable style={styles.arButton} onPress={openModelInAR}>
+            <Text style={styles.arButtonText}>Launch AR</Text>
+          </Pressable>
+        </View>
+      )}
 
       <StatusBar style="auto" />
     </View>
   );
 }
 
-// ============================================================================
-// STYLES
-// ============================================================================
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f7f7f2',
-    padding: 24,
+    backgroundColor: '#0f1115',
+    paddingTop: 60,
+    paddingHorizontal: 20,
   },
 
   title: {
-    color: '#1d2a2e',
+    color: 'white',
     fontSize: 28,
     fontWeight: '700',
-    marginBottom: 8,
+    textAlign: 'center',
   },
 
   subtitle: {
-    color: '#526063',
-    fontSize: 16,
-    marginBottom: 24,
+    color: '#9ba1a6',
+    fontSize: 15,
     textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 20,
   },
 
-  button: {
+  selector: {
+    gap: 10,
+    marginBottom: 20,
+  },
+
+  monumentButton: {
+    backgroundColor: '#1c1f26',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+
+  monumentButtonActive: {
     backgroundColor: '#2f6f73',
-    borderRadius: 8,
-    paddingHorizontal: 20,
-    paddingVertical: 14,
   },
 
-  buttonText: {
-    color: '#ffffff',
-    fontSize: 16,
+  monumentButtonText: {
+    color: 'white',
+    textAlign: 'center',
     fontWeight: '600',
   },
 
-  infoText: {
-    marginTop: 20,
-    color: '#526063',
-    fontSize: 13,
+  monumentButtonTextActive: {
+    color: 'white',
+  },
+
+  modeContainer: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 20,
+  },
+
+  modeButton: {
+    flex: 1,
+    backgroundColor: '#1c1f26',
+    paddingVertical: 12,
+    borderRadius: 10,
+  },
+
+  modeButtonActive: {
+    backgroundColor: '#2f6f73',
+  },
+
+  modeButtonText: {
+    color: 'white',
     textAlign: 'center',
+    fontWeight: '600',
+  },
+
+  viewerContainer: {
+    flex: 1,
+    overflow: 'hidden',
+    borderRadius: 20,
+    backgroundColor: '#111',
+  },
+
+  webview: {
+    flex: 1,
+    backgroundColor: '#111',
+  },
+
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  emptyText: {
+    color: '#aaa',
+  },
+
+  arContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  arTitle: {
+    color: 'white',
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+
+  arButton: {
+    backgroundColor: '#2f6f73',
+    paddingHorizontal: 30,
+    paddingVertical: 16,
+    borderRadius: 14,
+  },
+
+  arButtonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
   },
 });
