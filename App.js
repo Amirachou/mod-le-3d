@@ -32,6 +32,13 @@ const MONUMENTS = {
     ios: 'https://mod-le-3d.vercel.app/models/eiffel.usdz',
     object3d: 'https://mod-le-3d.vercel.app/models/eiffel.glb',
   },
+
+  girl: {
+    name: 'Girl Character',
+    android: 'https://mod-le-3d.vercel.app/models/girl-character.glb',
+    ios: null,
+    object3d: 'https://mod-le-3d.vercel.app/models/girl-character.glb',
+  },
 };
 
 export default function App() {
