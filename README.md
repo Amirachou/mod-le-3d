@@ -14,6 +14,7 @@ The real model files are:
 public/models/free__la_tour_eiffel.glb
 public/models/Clock_Tower_Big_Ben.usdz
 public/models/atena.glb
+public/models/judy_hopps_farmer_outfit.glb
 ```
 
 After deploying to Vercel, these files should be available at:
@@ -22,6 +23,7 @@ After deploying to Vercel, these files should be available at:
 https://mod-le-3d.vercel.app/models/free__la_tour_eiffel.glb
 https://mod-le-3d.vercel.app/models/Clock_Tower_Big_Ben.usdz
 https://mod-le-3d.vercel.app/models/atena.glb
+https://mod-le-3d.vercel.app/models/judy_hopps_farmer_outfit.glb
 ```
 
 ## Update App.js
@@ -48,6 +50,7 @@ const IOS_USDZ_URL = 'https://mod-le-3d.vercel.app/models/Clock_Tower_Big_Ben.us
 https://mod-le-3d.vercel.app/models/free__la_tour_eiffel.glb
 https://mod-le-3d.vercel.app/models/Clock_Tower_Big_Ben.usdz
 https://mod-le-3d.vercel.app/models/atena.glb
+https://mod-le-3d.vercel.app/models/judy_hopps_farmer_outfit.glb
 ```
 
 ## Run the Expo App
