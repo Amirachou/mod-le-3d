@@ -53,6 +53,13 @@ const MONUMENTS = {
     ios: null,
     object3d: 'https://mod-le-3d.vercel.app/models/judy_hopps_farmer_outfit.glb',
   },
+
+  talkingBen: {
+    name: 'Talking Ben',
+    android: 'https://mod-le-3d.vercel.app/models/talking_ben_ai_-_ben.glb',
+    ios: null,
+    object3d: 'https://mod-le-3d.vercel.app/models/talking_ben_ai_-_ben.glb',
+  },
 };
 
 export default function App() {
