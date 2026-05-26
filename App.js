@@ -135,6 +135,8 @@ export default function App() {
         <model-viewer
           src="${selectedMonument.object3d}"
           ar
+          ${selectedKey === 'talkingBen' ? 'autoplay' : ''}
+          ${selectedKey === 'talkingBen' ? 'animation-name="Ben Talking Mouth Loop"' : ''}
           auto-rotate
           camera-controls
           shadow-intensity="1"
