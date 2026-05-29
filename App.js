@@ -47,6 +47,13 @@ const MONUMENTS = {
     object3d: 'https://mod-le-3d.vercel.app/models/atena.glb',
   },
 
+  atena1: {
+    name: 'Atena 1',
+    android: 'https://mod-le-3d.vercel.app/models/atena1.glb',
+    ios: null,
+    object3d: 'https://mod-le-3d.vercel.app/models/atena1.glb',
+  },
+
   judy: {
     name: 'Judy Hopps',
     android: 'https://mod-le-3d.vercel.app/models/judy_hopps_farmer_outfit.glb',
