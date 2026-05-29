@@ -87,3 +87,4 @@ npx expo start
 2. Scan the Expo QR code with Expo Go.
 3. Tap `Open Model in AR`.
 4. iOS should open the hosted USDZ file with AR Quick Look.
+"# Cache bust"  
