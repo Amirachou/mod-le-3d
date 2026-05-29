@@ -67,6 +67,13 @@ const MONUMENTS = {
     ios: null,
     object3d: 'https://mod-le-3d.vercel.app/models/talking_ben_ai_-_ben.glb',
   },
+
+  angry: {
+    name: 'Angry',
+    android: 'https://mod-le-3d.vercel.app/models/Angry.glb',
+    ios: null,
+    object3d: 'https://mod-le-3d.vercel.app/models/Angry.glb',
+  },
 };
 
 export default function App() {
